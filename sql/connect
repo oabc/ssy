@@ -1,0 +1,37 @@
+mysql -useed -p8ygo4whvy87tyg48t75y8t
+
+mysql -uroot -p3dG7sqew6k
+
+show procedure status;
+
+查看存储过程或函数的创建代码
+
+         insert into flow_addup(ps,ip,port,value,cost)values(concat('P',port,'T',serverip),serverip,port,value,floor(1000*price*value/1073741824)/1000) ON DUPLICATE KEY UPDATE value=flow_addup.value+value,cost=floor(1000*(value+flow_addup.value)*price/1073741824);
+
+    DECLARE stype int DEFAULT 0;
+    select type  from server where ip='1' limit 1;
+    select stype;
+    SELECT `port`, `password` FROM `user` WHERE (`day_time`>SYSDATE() and stype=1) OR `balance`>0;
+
+show create procedure proc_name;
+show create function func_name;
+
+
+    select *,stype,user.day_time<SYSDATE() as dd,(user.balance-IFNULL(price*_tmp.value/1073741824,0)) as newp from `user` inner join _tmp on user.port=_tmp.port  where stype<>1 or user.day_time<SYSDATE();
+
+call p_getport();
+use seed;
+call p_commitflow('124.248.220.225','7817,100');
+
+select * from user where username='vvvvvv';select * from error_log;select * from flow_addup;
+
+select * from server;
+drop table error_log;
+107.151.139.159
+call p_commitflow('124.248.220.225','16051,100');
+
+
+UPDATE flow_addup inner join user on flow_addup.ip='124.248.220.225' and user.port=flow_addup.port SET user.balance=user.balance-flow_addup.cost,flow_addup.value=0,flow_addup.cost=0  where 1<>1 or user.day_time<now();
+
+select * from flow_addup inner join user on flow_addup.ip='124.248.220.225' and user.port=flow_addup.port  where 1<>1 or user.day_time<now();
+
