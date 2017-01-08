@@ -101,7 +101,6 @@ class DbTransfer(object):
         rows = [[10000,'10000'],[20000,'10000'],[30000,'10000']]
         return rows
 
-    @staticmethod
     def pull_db_all_user(self):
 
         #更新用户流量到数据库
