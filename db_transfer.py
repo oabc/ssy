@@ -136,7 +136,7 @@ class DbTransfer(object):
         #提交流量结束
 
         #数据库交互
-        rows=DbTransfer.put_get_all(allflow)
+        rows=DbTransfer.put_get_all_test(allflow)
         print rows
 
         if len(rows)<1:
@@ -153,9 +153,8 @@ class DbTransfer(object):
                     ServerPool.get_instance().del_server(row[0]) 
                     ServerPool.get_instance().new_server(row[0], row[1])
             else:
-                if row[5] == 1 and row[6] == 1 and row[1] + row[2] < row[3]:
-                    logging.info('db start server at port [%s] pass [%s]' % (row[0], row[1]))
-                    ServerPool.get_instance().new_server(row[0], row[1])
+                logging.info('db start server at port [%s] pass [%s]' % (row[0], row[1]))
+                ServerPool.get_instance().new_server(row[0], row[1])
         #检查正在运行的
         for runport in dt_transfer.keys():
             if runport not in dt_alluser.keys():
