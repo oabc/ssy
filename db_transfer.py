@@ -102,7 +102,7 @@ class DbTransfer(object):
         return rows
 
     @staticmethod
-    def pull_db_all_user():
+    def pull_db_all_user(self):
 
         #更新用户流量到数据库
         last_transfer = self.last_get_transfer
