@@ -96,7 +96,7 @@ class DbTransfer(object):
     def put_get_all_test(allflow):
         serverip='127.0.0.1'
         allquery=" call p_put_get_all('%s','%s') "% (serverip,allflow)
-        logging.info('dbquery[%s]' % (allquery))
+        logging.info('dbtestquery[%s]' % (allquery))
         #SELECT port,passwd FROM user
         rows = [[10000,'10000'],[20000,'10000'],[30000,'10000']]
         return rows
@@ -136,7 +136,8 @@ class DbTransfer(object):
         #提交流量结束
 
         #数据库交互
-        rows=DbTransfer.put_get_all_test(allflow)
+        rows=DbTransfer.put_get_all(allflow)
+        print rows
 
         if len(rows)<1:
             return
