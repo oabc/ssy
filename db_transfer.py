@@ -137,8 +137,6 @@ class DbTransfer(object):
 
         #数据库交互
         rows=DbTransfer.put_get_all_test(allflow)
-        print rows
-
         if len(rows)<1:
             return
         self.last_get_transfer = curr_transfer

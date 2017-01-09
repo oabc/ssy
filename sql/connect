@@ -3,9 +3,14 @@ mysql -useed -p8ygo4whvy87tyg48t75y8t
 mysql -uroot -p3dG7sqew6k
 
 show procedure status;
+git fetch --all&&git reset --hard origin/master&&git pull
+博客园首页新随笔联系管理订阅
+随笔- 178  文章- 0  评论- 0 
+如何查看连接mysql的ip地址
+select SUBSTRING_INDEX(host,':',1) from information_schema.processlist where state='executing';
 
 查看存储过程或函数的创建代码
-
+select value from user_config where name='user_update' and value>'2017010901180';
          insert into flow_addup(ps,ip,port,value,cost)values(concat('P',port,'T',serverip),serverip,port,value,floor(1000*price*value/1073741824)/1000) ON DUPLICATE KEY UPDATE value=flow_addup.value+value,cost=floor(1000*(value+flow_addup.value)*price/1073741824);
 
     DECLARE stype int DEFAULT 0;
@@ -35,3 +40,4 @@ UPDATE flow_addup inner join user on flow_addup.ip='124.248.220.225' and user.po
 
 select * from flow_addup inner join user on flow_addup.ip='124.248.220.225' and user.port=flow_addup.port  where 1<>1 or user.day_time<now();
 
+select date_format(now(),'%Y%c%d%h%i%s');

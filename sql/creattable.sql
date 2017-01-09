@@ -15,5 +15,29 @@
   `last_rest_pass_time` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`,`port`)
 ) ENGINE=InnoDB AUTO_INCREMENT=415 DEFAULT CHARSET=utf8;
+
+用户信息更新表
+
+DELIMITER ;
+use seed;
+DELIMITER //
+
+drop table user_update;
+drop table user_config;
+CREATE TABLE IF NOT EXISTS `user_update`(
+    port int NOT NULL DEFAULT 0
+    ,password varchar(20) NOT NULL DEFAULT '', PRIMARY KEY (port)); 
+CREATE TABLE IF NOT EXISTS `user_config`(
+    name varchar(20) NOT NULL DEFAULT ''
+    ,value varchar(200) NOT NULL DEFAULT '', PRIMARY KEY (name)); 
+//
+DELIMITER ;
+
+
+流量表
 CREATE TABLE IF NOT EXISTS `flow_addup_auto`(
-    ps varchar(22),ip varchar(15) NOT NULL DEFAULT '127.0.0.1',port int NOT NULL DEFAULT 0,flowg int NOT NULL DEFAULT 0,flowk int NOT NULL DEFAULT 0,flowkday int NOT NULL DEFAULT 0,value int NOT NULL DEFAULT 0,cost decimal(16,3) NOT NULL,lasttime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (ps)); 
+    ip varchar(15) NOT NULL DEFAULT '127.0.0.1',port int NOT NULL DEFAULT 0
+    ,flowg bigint(20) NOT NULL DEFAULT 0,flowk int NOT NULL DEFAULT 0,flowkday int NOT NULL DEFAULT 0
+    ,flowgu bigint(20) NOT NULL DEFAULT 0,flowku int NOT NULL DEFAULT 0,flowkdayu int NOT NULL DEFAULT 0
+    ,flowgd bigint(20) NOT NULL DEFAULT 0,flowkd int NOT NULL DEFAULT 0,flowkdayd int NOT NULL DEFAULT 0
+    ,value int NOT NULL DEFAULT 0,cost decimal(16,3) NOT NULL,lasttime timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, PRIMARY KEY (ip,port)); 

@@ -20,7 +20,7 @@ label:begin
         select '无效内容' as result;
         leave label;
     END IF;
-
+    select SUBSTRING_INDEX(host,':',1) into serverip from information_schema.processlist where state='executing';
     IF(serverip is NULL or LENGTH(serverip)=0) THEN
         select '无效地址' as result;
         leave label;
