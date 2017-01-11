@@ -92,7 +92,7 @@ class DbTransfer(object):
         #检查是否已经运行
         for row in rows:
             dt_alluser[row[0]]=row[0]
-            if row[0] in dt_transfer.keys() m:
+            if row[0] in dt_transfer.keys():
                 if ServerPool.get_instance().tcp_servers_pool[row[0]]._config['password'] != row[1]:
                     #password changed
                     logging.info('db restart server at port [%s] reason: password changed' % (row[0]))
