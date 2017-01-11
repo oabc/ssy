@@ -129,11 +129,8 @@ class DbTransfer(object):
         while True:
             #logging.warn('db loop')
             DbTransfer.get_instance().pull_db_all_user()
-            continue
             try:
-                #DbTransfer.get_instance().push_db_all_user()
-                DbTransfer.get_instance().pull_db_all_user()
-                #DbTransfer.del_server_out_of_bound_safe(rows)
+                #DbTransfer.get_instance().pull_db_all_user()
             except Exception as e:
                 logging.warn('db thread except:%s' % e)
             finally:
