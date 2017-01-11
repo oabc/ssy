@@ -93,11 +93,11 @@ class DbTransfer(object):
             return
         self.last_get_transfer = curr_transfer
         if len(rows)==1 and '%s'%rows[0][1]=='0':            
-            logging.info('userinfo no change:s%'%self.last_get_dbtime)
+            logging.info('userinfo no change:s%'%(self.last_get_dbtime)
             return
         self.last_get_dbtime='%s'%rows[0][1]
         del rows[0]
-        logging.info('last_get_dbtime is:%s'%self.last_get_dbtime)
+        logging.info('last_get_dbtime is:%s'%(self.last_get_dbtime))
         dt_alluser = {}
         #检查是否已经运行
         for row in rows:
@@ -128,6 +128,8 @@ class DbTransfer(object):
         socket.setdefaulttimeout(timeout)
         while True:
             #logging.warn('db loop')
+            DbTransfer.get_instance().pull_db_all_user()
+            break
             try:
                 #DbTransfer.get_instance().push_db_all_user()
                 DbTransfer.get_instance().pull_db_all_user()
