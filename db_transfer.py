@@ -84,8 +84,11 @@ class DbTransfer(object):
 
         #数据库交互
         rows=DbTransfer.put_get_all_test(allflow)
-        if len(rows)<2 or rows[0][0]<>'0':
-            logging.info('return reason: not userinfo or error')
+        if len(rows)<2:
+            logging.info('return reason: userinfo less 1')
+            return
+        if rows[0][0]<>0 and rows[0][0]<>'0':
+            logging.info('return reason: error userinfo')
             return
         self.last_get_transfer = curr_transfer
         self.last_get_dbtime=rows[0][1]
