@@ -14,7 +14,7 @@ class DbTransfer(object):
 
     def __init__(self):
         self.last_get_transfer = {}
-
+        self.last_get_dbtime =''
     @staticmethod
     def get_instance():
         if DbTransfer.instance is None:
@@ -77,17 +77,20 @@ class DbTransfer(object):
         allflow = ''
         for id in dt_transfer.keys():
             allflow+='%s|%s|%s,' % (id, dt_transfer[id][0], dt_transfer[id][1])#(port,up,down)
-        print allflow
-        
+        logging.info('allflow is:%s'%allflow)
         #print query_sql
 #UPDATE user SET u上传 = CASE port WHEN 10000 THEN u+79280 END, d下载 = CASE port WHEN 10000 THEN d+863188 END, t时间 = 1483353247 WHERE port IN (10000)
         #提交流量结束
 
         #数据库交互
         rows=DbTransfer.put_get_all_test(allflow)
-        if len(rows)<1:
+        if len(rows)<2 or rows[0][0]<>'0':
+            logging.info('return reason: not userinfo or error')
             return
         self.last_get_transfer = curr_transfer
+        self.last_get_dbtime=rows[0][1]
+        del rows[0]
+        logging.info('last_get_dbtime is:%s'%self.last_get_dbtime)
         dt_alluser = {}
         #检查是否已经运行
         for row in rows:
