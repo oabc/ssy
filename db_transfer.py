@@ -22,13 +22,13 @@ class DbTransfer(object):
         return DbTransfer.instance
 
     @staticmethod
-    def put_get_all(allflow):
+    def put_get_all(last_get_time,allflow):
         #数据库所有用户信息
         conn = cymysql.connect(host=Config.MYSQL_HOST, port=Config.MYSQL_PORT, user=Config.MYSQL_USER,
                                passwd=Config.MYSQL_PASS, db=Config.MYSQL_DB, charset='utf8')
         cur = conn.cursor()
         serverip='127.0.0.1'
-        allquery=" call p_put_get_all('%s','%s') "% (serverip,allflow)
+        allquery=" call p_put_get_all('%s','%s') "% (last_get_time,allflow)
         logging.info('dbquery[%s]' % (allquery))
         cur.execute(allquery)
         #SELECT port,passwd FROM user
@@ -39,12 +39,12 @@ class DbTransfer(object):
         conn.close()
         return rows
     @staticmethod
-    def put_get_all_test(allflow):
+    def put_get_all_test(last_get_time,allflow):
         serverip='127.0.0.1'
-        allquery=" call p_put_get_all('%s','%s') "% (serverip,allflow)
+        allquery=" call p_put_get_all('%s','%s') "% (last_get_time,allflow)
         logging.info('dbtestquery[%s]' % (allquery))
         #SELECT port,passwd FROM user
-        rows = [[10000,'10000'],[20000,'10000'],[30000,'10000']]
+        rows = [[0,2017],[10000,'10000'],[20000,'10000'],[30000,'10000']]
         return rows
 
     def pull_db_all_user(self):
@@ -83,15 +83,15 @@ class DbTransfer(object):
         #提交流量结束
 
         #数据库交互
-        rows=DbTransfer.put_get_all_test(allflow)
-        if len(rows)<2:
-            logging.info('return reason: userinfo less 1')
-            return
-        if rows[0][0]<>0 and rows[0][0]<>'0':
-            logging.info('return reason: error userinfo')
+        rows=DbTransfer.put_get_all(self.last_get_transfer,allflow)
+        if len(rows)<1 or '%s'%rows[0][0]<>'0':
+            logging.info('return reason: userinfo error.')
             return
         self.last_get_transfer = curr_transfer
-        self.last_get_dbtime=rows[0][1]
+        self.last_get_dbtime='%s'%rows[0][1]
+        if len(rows)==1 and self.last_get_dbtime=='0':
+            logging.info('return reason:userinfo not need update')
+            return
         del rows[0]
         logging.info('last_get_dbtime is:%s'%self.last_get_dbtime)
         dt_alluser = {}
