@@ -75,7 +75,7 @@ class DbTransfer(object):
         if len(dt_transfer)<1 and len(curr_transfer)>0:
             self.loopfloortime=self.loopfloortime+1
             if self.loopfloortime<30:
-                logging.info('floortime:s%'%self.loopfloortime)
+                logging.info('floortime:%s'%self.loopfloortime)
                 return
             self.loopfloortime=0
         allflow = ''
