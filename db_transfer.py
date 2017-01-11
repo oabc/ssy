@@ -134,7 +134,7 @@ class DbTransfer(object):
             except Exception as e:
                 logging.warn('db thread except:%s' % e)
             finally:
-                time.sleep(60)
+                time.sleep(30)
 
 #SQLData.pull_db_all_user()
 #print DbTransfer.get_instance().test()
