@@ -14,7 +14,7 @@ class DbTransfer(object):
 
     def __init__(self):
         self.last_get_transfer = {}
-        self.last_get_dbtime =''
+        self.last_get_dbtime ='1'
         self.loopfloortime =0
     @staticmethod
     def get_instance():
