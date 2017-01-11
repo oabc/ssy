@@ -103,9 +103,9 @@ class DbTransfer(object):
         for row in rows:
             _port='%s'%row[0]
             _passwd='%s'%row[1]
-            dt_alluser[_port]=_port
-            logging.info('to:(%s)' %curr_transfer.keys())
+            dt_alluser[_port]=_port            
             if _port in curr_transfer.keys():
+                logging.info('to:(%s)' %_port)
                 if ServerPool.get_instance().tcp_servers_pool[_port]._config['password'] !=_passwd:
                     #password changed
                     logging.info('restart on changed password(%s=>%s)' %(_port,_passwd))
