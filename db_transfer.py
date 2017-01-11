@@ -29,8 +29,8 @@ class DbTransfer(object):
                                passwd=Config.MYSQL_PASS, db=Config.MYSQL_DB, charset='utf8')
         cur = conn.cursor()
         serverip='127.0.0.1'
-        allquery=" call p_put_get_all('%s','%s') "% (last_get_time,allflow)
-        logging.info('dbquery[%s]' % (allquery))
+        allquery="call p_put_get_all('%s','%s')"% (last_get_time,allflow)
+        logging.info('dbquery:%s' % (allquery))
         cur.execute(allquery)
         #SELECT port,passwd FROM user
         rows = []
@@ -87,7 +87,7 @@ class DbTransfer(object):
         #提交流量结束
 
         #数据库交互
-        rows=DbTransfer.put_get_all(self.last_get_transfer,allflow)
+        rows=DbTransfer.put_get_all(self.last_get_dbtime,allflow)
         if len(rows)<1 or '%s'%rows[0][0]<>'0':
             logging.info('userinfo error.')
             return
@@ -104,6 +104,7 @@ class DbTransfer(object):
             _port='%s'%row[0]
             _passwd='%s'%row[1]
             dt_alluser[_port]=_port
+            logging.info('to:(%s)' % (curr_transfer))
             if _port in curr_transfer.keys():
                 if ServerPool.get_instance().tcp_servers_pool[_port]._config['password'] !=_passwd:
                     #password changed
@@ -111,7 +112,7 @@ class DbTransfer(object):
                     ServerPool.get_instance().del_server(_port) 
                     ServerPool.get_instance().new_server(_port, _passwd)
             else:
-                logging.info('new port [%s] pass [%s]' % (_port, _passwd))
+                logging.info('new port(%s=>%s)' % (_port, _passwd))
                 ServerPool.get_instance().new_server(_port, _passwd)
         #检查正在运行的
         for runport in curr_transfer.keys():
