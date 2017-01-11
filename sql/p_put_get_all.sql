@@ -1,9 +1,10 @@
 DELIMITER ;
 use seed;
 DELIMITER //
-drop PROCEDURE if exists p_commitflow;
+drop PROCEDURE if exists p_put_get_all;
 CREATE PROCEDURE `p_put_get_all`(
-    flow text
+    ut VARCHAR(15)
+    ,flow text
 )
 label:begin
     DECLARE i int DEFAULT 1;
@@ -20,7 +21,7 @@ label:begin
     DECLARE serverip VARCHAR(15) DEFAULT '';
     select SUBSTRING_INDEX(host,':',1) into serverip from information_schema.processlist where state='executing';
     IF(flow is NULL or LENGTH(flow)=0) THEN
-        call p_getport();
+        call p_getport(serverip,ut);
         leave label;
     END IF;  
     select price_1g,type into price,stype from server where ip=serverip limit 1;
@@ -51,7 +52,7 @@ label:begin
 CREATE TABLE IF NOT EXISTS `error_log` (`id` int(11) NOT NULL auto_increment,`type` varchar(20) NOT NULL,`time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,`text` text NOT NULL,`ok` varchar(50) NOT NULL,`des` varchar(50) NOT NULL, PRIMARY KEY (id));
         insert into error_log(`type`,`des`,`text`)values('update_flow',concat('error(',error,')'),flow);
     END IF;
-    select 'ok' as result;
+    call p_getport(serverip,ut);
 end ;
 //
 DELIMITER ;

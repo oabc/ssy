@@ -15,6 +15,7 @@ class DbTransfer(object):
     def __init__(self):
         self.last_get_transfer = {}
         self.last_get_dbtime =''
+        self.loopfloortime =0
     @staticmethod
     def get_instance():
         if DbTransfer.instance is None:
@@ -72,8 +73,11 @@ class DbTransfer(object):
                 dt_transfer[id] = [curr_transfer[id][0], curr_transfer[id][1]]
         #最后一次流量等于本次流量
         if len(dt_transfer)<1 and len(curr_transfer)>0:
-            logging.info('return reason: not use flow')
-            return
+            self.loopfloortime=self.loopfloortime+1
+            if self.loopfloortime<30:
+                logging.info('floortime:s%'%self.loopfloortime)
+                return
+            self.loopfloortime=0
         allflow = ''
         for id in dt_transfer.keys():
             allflow+='%s|%s|%s,' % (id, dt_transfer[id][0], dt_transfer[id][1])#(port,up,down)
@@ -85,32 +89,34 @@ class DbTransfer(object):
         #数据库交互
         rows=DbTransfer.put_get_all(self.last_get_transfer,allflow)
         if len(rows)<1 or '%s'%rows[0][0]<>'0':
-            logging.info('return reason: userinfo error.')
+            logging.info('userinfo error.')
             return
         self.last_get_transfer = curr_transfer
-        self.last_get_dbtime='%s'%rows[0][1]
-        if len(rows)==1 and self.last_get_dbtime=='0':
-            logging.info('return reason:userinfo not need update')
+        if len(rows)==1 and '%s'%rows[0][1]=='0':            
+            logging.info('userinfo no change:s%'%self.last_get_dbtime)
             return
+        self.last_get_dbtime='%s'%rows[0][1]
         del rows[0]
         logging.info('last_get_dbtime is:%s'%self.last_get_dbtime)
         dt_alluser = {}
         #检查是否已经运行
         for row in rows:
-            dt_alluser[row[0]]=row[0]
-            if row[0] in dt_transfer.keys():
-                if ServerPool.get_instance().tcp_servers_pool[row[0]]._config['password'] != row[1]:
+            _port='%s'%row[0]
+            _passwd='%s'%row[1]
+            dt_alluser[_port]=_port
+            if _port in curr_transfer.keys():
+                if ServerPool.get_instance().tcp_servers_pool[_port]._config['password'] !=_passwd:
                     #password changed
-                    logging.info('db restart server at port [%s] reason: password changed' % (row[0]))
-                    ServerPool.get_instance().del_server(row[0]) 
-                    ServerPool.get_instance().new_server(row[0], row[1])
+                    logging.info('restart on changed password(%s=>%s)' %(_port,_passwd))
+                    ServerPool.get_instance().del_server(_port) 
+                    ServerPool.get_instance().new_server(_port, _passwd)
             else:
-                logging.info('db start server at port [%s] pass [%s]' % (row[0], row[1]))
-                ServerPool.get_instance().new_server(row[0], row[1])
+                logging.info('new port [%s] pass [%s]' % (_port, _passwd))
+                ServerPool.get_instance().new_server(_port, _passwd)
         #检查正在运行的
-        for runport in dt_transfer.keys():
+        for runport in curr_transfer.keys():
             if runport not in dt_alluser.keys():
-                logging.info('db stop server at port [%s] reason: run to stop' % (runport))
+                logging.info('run to stop(%s)' % (runport))
                 ServerPool.get_instance().del_server(runport)
 
     @staticmethod
