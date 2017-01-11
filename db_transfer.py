@@ -104,7 +104,7 @@ class DbTransfer(object):
             _port='%s'%row[0]
             _passwd='%s'%row[1]
             dt_alluser[_port]=_port
-            logging.info('to:(%s)' % (curr_transfer))
+            logging.info('to:(%s)' % json.dumps(curr_transfer.keys()))
             if _port in curr_transfer.keys():
                 if ServerPool.get_instance().tcp_servers_pool[_port]._config['password'] !=_passwd:
                     #password changed
