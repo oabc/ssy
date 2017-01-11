@@ -112,6 +112,7 @@ class DbTransfer(object):
                     ServerPool.get_instance().del_server(_port) 
                     ServerPool.get_instance().new_server(_port, _passwd)
             else:
+                logging.info('do:(%s)' %_port)
                 logging.info('new port(%s=>%s)' % (_port, _passwd))
                 ServerPool.get_instance().new_server(_port, _passwd)
         #检查正在运行的
