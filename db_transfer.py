@@ -130,11 +130,13 @@ class DbTransfer(object):
             #logging.warn('db loop')
             DbTransfer.get_instance().pull_db_all_user()
             try:
+                d=5
                 #DbTransfer.get_instance().pull_db_all_user()
             except Exception as e:
                 logging.warn('db thread except:%s' % e)
             finally:
-                time.sleep(30)
+                #time.sleep(60)
+                time.sleep(10)
 
 #SQLData.pull_db_all_user()
 #print DbTransfer.get_instance().test()
