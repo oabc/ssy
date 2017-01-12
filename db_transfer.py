@@ -32,6 +32,7 @@ class DbTransfer(object):
         allquery="call p_put_get_all('%s','%s')"% (last_get_time,allflow)
         logging.info('dbquery:%s' % (allquery))
         cur.execute(allquery)
+        conn.commit()
         #SELECT port,passwd FROM user
         rows = []
         for r in cur.fetchall():
@@ -77,11 +78,11 @@ class DbTransfer(object):
             if self.loopfloortime<30:
                 logging.info('floortime:%s'%self.loopfloortime)
                 return
-            self.loopfloortime=0
         allflow = ''
+        self.loopfloortime=0
         for id in dt_transfer.keys():
             allflow+='%s|%s|%s,' % (id, dt_transfer[id][0], dt_transfer[id][1])#(port,up,down)
-        logging.info('allflow is:%s'%allflow)
+        logging.info('flow(%s)'%allflow)
         #print query_sql
 #UPDATE user SET u上传 = CASE port WHEN 10000 THEN u+79280 END, d下载 = CASE port WHEN 10000 THEN d+863188 END, t时间 = 1483353247 WHERE port IN (10000)
         #提交流量结束
@@ -90,29 +91,28 @@ class DbTransfer(object):
         rows=DbTransfer.put_get_all(self.last_get_dbtime,allflow)
         if len(rows)<1 or '%s'%rows[0][0]<>'0':
             logging.info('userinfo error.')
-            return
+            return            
         self.last_get_transfer = curr_transfer
-        if len(rows)==1 and '%s'%rows[0][1]=='0':            
-            logging.info('userinfo no change:%s'%self.last_get_dbtime)
+        _passwd='%s'%rows[0][1]
+        logging.info('dbtime[%s][%s](%s,%s)'%(self.last_get_dbtime==_passwd,len(rows),self.last_get_dbtime,_passwd))
+        if len(rows)==1 and self.last_get_dbtime==_passwd:
             return
-        self.last_get_dbtime='%s'%rows[0][1]
+        self.last_get_dbtime=_passwd    
         del rows[0]
-        logging.info('last_get_dbtime is:%s'%self.last_get_dbtime)
         dt_alluser = {}
         #检查是否已经运行
         for row in rows:
-            _port='%s'%row[0]
+            _port=int(row[0])
             _passwd='%s'%row[1]
             dt_alluser[_port]=_port            
             if _port in curr_transfer.keys():
-                logging.info('to:(%s)' %_port)
                 if ServerPool.get_instance().tcp_servers_pool[_port]._config['password'] !=_passwd:
                     #password changed
                     logging.info('restart on changed password(%s=>%s)' %(_port,_passwd))
                     ServerPool.get_instance().del_server(_port) 
+                    time.sleep(3)
                     ServerPool.get_instance().new_server(_port, _passwd)
             else:
-                logging.info('do:(%s)' %_port)
                 logging.info('new port(%s=>%s)' % (_port, _passwd))
                 ServerPool.get_instance().new_server(_port, _passwd)
         #检查正在运行的

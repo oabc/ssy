@@ -1,6 +1,7 @@
-mysql -useed -p8ygo4whvy87tyg48t75y8t
-
+mysql -useed -p 8ygo4whvy87tyg48t75y8t
 mysql -uroot -p3dG7sqew6k
+
+mysql -uroot -p 3dG7sqew6k
 
 show procedure status;
 git fetch --all&&git reset --hard origin/master&&git pull
