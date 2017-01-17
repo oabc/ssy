@@ -92,6 +92,10 @@ def get_config(is_local):
     config["password"] = "m"
     config["timeout"] = 300
     config["method"] = "rc4-md5"
+    config['fast_open']=false
+    config['port_password'] = ""
+    config['workers'] = 1
+    config['verbose'] =  False
     return config
     logging.basicConfig(level=logging.INFO,
                         format='%(levelname)-s: %(message)s', filemode='a+')
