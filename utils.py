@@ -92,7 +92,7 @@ def get_config(is_local):
     config["password"] = "m"
     config["timeout"] = 300
     config["method"] = "rc4-md5"
-    config['fast_open']=false
+    config['fast_open']= False
     config['port_password'] = ""
     config['workers'] = 1
     config['verbose'] =  False
