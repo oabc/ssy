@@ -96,6 +96,7 @@ def get_config(is_local):
     config['port_password'] = ""
     config['workers'] = 1
     config['verbose'] =  False
+    check_config(config)
     return config
     logging.basicConfig(level=logging.INFO,
                         format='%(levelname)-s: %(message)s', filemode='a+')
