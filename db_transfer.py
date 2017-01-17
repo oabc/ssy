@@ -32,12 +32,12 @@ class DbTransfer(object):
         allquery="call p_put_get_all('%s','%s')"% (last_get_time,allflow)
         logging.info('dbquery:%s' % (allquery))
         cur.execute(allquery)
-        conn.commit()
         #SELECT port,passwd FROM user
         rows = []
         for r in cur.fetchall():
             rows.append(list(r))
         cur.close()
+        conn.commit()
         conn.close()
         return rows
     @staticmethod

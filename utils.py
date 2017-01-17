@@ -83,6 +83,16 @@ def check_config(config):
 
 
 def get_config(is_local):
+    config = {}
+    config["server"] = "0.0.0.0"
+    config["server_ipv6"] =  "[::]"
+    config["server_port"] = 8388
+    config["local_address"] =  "127.0.0.1"
+    config["local_port"] = 1080
+    config["password"] = "m"
+    config["timeout"] = 300
+    config["method"] = "rc4-md5"
+    return config
     logging.basicConfig(level=logging.INFO,
                         format='%(levelname)-s: %(message)s', filemode='a+')
     if is_local:
