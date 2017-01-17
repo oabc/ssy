@@ -83,6 +83,7 @@ def check_config(config):
 
 
 def get_config(is_local):
+    """
     config = {}
     config["server"] = "0.0.0.0"
     config["server_ipv6"] =  "[::]"
@@ -98,6 +99,7 @@ def get_config(is_local):
     config['verbose'] =  False
     check_config(config)
     return config
+    """
     logging.basicConfig(level=logging.INFO,
                         format='%(levelname)-s: %(message)s', filemode='a+')
     if is_local:
