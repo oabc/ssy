@@ -1,26 +1,26 @@
-    CREATE TABLE `user` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `email` varchar(32) NOT NULL,
-  `pass` varchar(16) NOT NULL,
-  `passwd` varchar(16) NOT NULL,
-  `t` int(11) NOT NULL DEFAULT '0',
-  `u` bigint(20) NOT NULL,
-  `d` bigint(20) NOT NULL,
-  `transfer_enable` bigint(20) NOT NULL,
-  `port` int(11) NOT NULL,
-  `switch` tinyint(4) NOT NULL DEFAULT '1',
-  `enable` tinyint(4) NOT NULL DEFAULT '1',
-  `type` tinyint(4) NOT NULL DEFAULT '1',
-  `last_get_gift_time` int(11) NOT NULL DEFAULT '0',
-  `last_rest_pass_time` int(11) NOT NULL DEFAULT '0',
-  PRIMARY KEY (`id`,`port`)
-) ENGINE=InnoDB AUTO_INCREMENT=415 DEFAULT CHARSET=utf8;
-
-用户信息更新表
-
 DELIMITER ;
 use seed;
 DELIMITER //
+
+drop table user;
+CREATE TABLE IF NOT EXISTS `user` (
+  `username` varchar(16) NOT NULL,
+  `password` varchar(16) NOT NULL,
+  `port` int(8) NOT NULL,
+  `day_time` timestamp NOT NULL DEFAULT '2016-12-01 05:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `balance` decimal(16,3) NOT NULL DEFAULT '0.000',
+  `lastcharge` varchar(50) NOT NULL,
+   PRIMARY KEY (port)
+);
+drop table server;
+CREATE TABLE IF NOT EXISTS `server` (
+  `ip` varchar(16) NOT NULL,
+  `price_1g` decimal(16,2) DEFAULT '0.00',
+  `type` int(1) NOT NULL DEFAULT '0',
+  `price_week` decimal(16,2) NOT NULL,
+  `name` varchar(20) CHARACTER SET latin1 NOT NULL,
+   PRIMARY KEY (ip)
+) 
 
 drop table user_update;
 CREATE TABLE IF NOT EXISTS `user_update`(
@@ -44,4 +44,3 @@ CREATE TABLE IF NOT EXISTS `flow_addup_auto`(
 DELIMITER ;
 
 
-流量表
