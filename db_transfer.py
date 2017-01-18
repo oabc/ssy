@@ -69,8 +69,8 @@ class DbTransfer(object):
         if len(dt_transfer)<1 and len(curr_transfer)>0:
             self.loopfloortime=self.loopfloortime+1
             if self.loopfloortime<30:
-                logging.info('floortime:%s'%self.loopfloortime)
-                return
+                #logging.info('floortime:%s'%self.loopfloortime)
+                #return
         allflow = ''
         self.loopfloortime=0
         for id in dt_transfer.keys():
@@ -89,7 +89,7 @@ class DbTransfer(object):
 
 
         if len(rows)<1 or '%s'%rows[0][0]<>'0':
-            logging.info('userinfo PUT AND GET error.')
+            logging.info('userinfo PUT AND GET error.%s.%s'%(len(rows),rows[0][0]))
             return            
         self.last_get_transfer = curr_transfer
         _passwd='%s'%rows[0][1]
