@@ -68,9 +68,9 @@ class DbTransfer(object):
         #最后一次流量等于本次流量
         if len(dt_transfer)<1 and len(curr_transfer)>0:
             self.loopfloortime=self.loopfloortime+1
-            #if self.loopfloortime<30:
-                #logging.info('floortime:%s'%self.loopfloortime)
-                #return
+            if self.loopfloortime<300:
+                logging.info('Not use floor:%s'%self.loopfloortime)
+                return
         allflow = ''
         self.loopfloortime=0
         for id in dt_transfer.keys():
