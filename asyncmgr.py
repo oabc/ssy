@@ -30,7 +30,7 @@ import logging
 import common
 import lru_cache
 import eventloop
-import server_pool
+import pool
 import Config
 
 class ServerMgr(object):
@@ -59,9 +59,9 @@ class ServerMgr(object):
             return
         if args[0] == Config.MANAGE_PASS:
             if args[3] == '0':
-                server_pool.ServerPool.get_instance().cb_del_server(args[1])
+                pool.ServerPool.get_instance().cb_del_server(args[1])
             elif args[3] == '1':
-                server_pool.ServerPool.get_instance().cb_new_server(args[1], args[2])
+                pool.ServerPool.get_instance().cb_new_server(args[1], args[2])
 
     def handle_events(self, events):
         for sock, fd, event in events:

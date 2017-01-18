@@ -1,7 +1,7 @@
 import time
 import sys
 import thread
-import server_pool
+import pool
 import db_transfer
 
 #def test():

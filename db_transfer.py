@@ -5,7 +5,7 @@ import logging
 import cymysql
 import time
 import sys
-from server_pool import ServerPool
+from pool import ServerPool
 import Config
 import user
 
