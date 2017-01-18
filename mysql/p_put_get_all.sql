@@ -1,5 +1,5 @@
 DELIMITER ;
-use seed;
+use ssy;
 DELIMITER //
 drop PROCEDURE if exists p_put_get_all;
 CREATE PROCEDURE `p_put_get_all`(

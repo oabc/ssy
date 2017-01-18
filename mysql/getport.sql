@@ -1,5 +1,5 @@
 DELIMITER ;
-use seed;
+use ssy;
 DELIMITER //
 drop PROCEDURE if exists p_getport;
 CREATE PROCEDURE `p_getport`(
