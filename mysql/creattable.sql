@@ -13,6 +13,11 @@ CREATE TABLE IF NOT EXISTS `user` (
   `lastcharge` varchar(50) NOT NULL,
    PRIMARY KEY (port)
 );
+INSERT INTO `user` (`username`, `password`, `port`, `day_time`, `balance`, `lastcharge`) VALUES
+('vvvvvv', 'qqqqqq', 6666, '2017-01-09 18:29:27', '90.379', '213456879'),
+('uuu', 'qqqqqq', 8888, '2017-01-12 12:10:09', '99.969', '0'),
+('yangyuxin', 'qqqqqq', 9999, '2016-12-29 08:22:14', '7.213', 'ferfiurhgeigtrg');
+
 drop table if exists server;
 CREATE TABLE IF NOT EXISTS `server` (
   `ip` varchar(16) NOT NULL,
