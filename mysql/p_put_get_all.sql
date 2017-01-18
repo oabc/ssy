@@ -32,8 +32,8 @@ label:begin
                 set row = REVERSE(SUBSTRING_INDEX(REVERSE(SUBSTRING_INDEX(flow,',',i)),',',1));
                 set i = i+1;
                 set port=SUBSTRING_INDEX(row,'|',1);
-                set uvalue=SUBSTRING_INDEX(row,'|',2);
-                set dvalue=SUBSTRING_INDEX(row,'|',3);
+                set uvalue=SUBSTRING_INDEX(SUBSTRING_INDEX(row,'|',2),'|',-1);
+                set dvalue=SUBSTRING_INDEX(row,'|',-1);
                 set value=uvalue+dvalue;
     IF(port=0 or value=0) THEN
         if(SUBSTRING_INDEX(row,',',1)<>'' or SUBSTRING_INDEX(row,',',-1)<>'') THEN
