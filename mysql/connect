@@ -5,8 +5,7 @@ mysql -uroot -p 3dG7sqew6k
 
 show procedure status;
 git fetch --all&&git reset --hard origin/master&&git pull
-博客园首页新随笔联系管理订阅
-随笔- 178  文章- 0  评论- 0 
+
 如何查看连接mysql的ip地址
 select SUBSTRING_INDEX(host,':',1) from information_schema.processlist where state='executing';
 
