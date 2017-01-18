@@ -20,24 +20,18 @@
 # LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
-
 import os
 import json
 import sys
 import getopt
 import logging
-
-
+import Config_server
 VERBOSE_LEVEL = 5
-
-
 def check_python():
     info = sys.version_info
     if not (info[0] == 2 and info[1] >= 6):
         print 'Python 2.6 or 2.7 required'
         sys.exit(1)
-
-
 def print_shadowsocks():
     version = ''
     try:
@@ -46,8 +40,6 @@ def print_shadowsocks():
     except Exception:
         pass
     print 'shadowsocks %s' % version
-
-
 def find_config():
     config_path = 'config.json'
     if os.path.exists(config_path):
@@ -92,7 +84,7 @@ def get_config(is_local):
         shortopts = 'hs:p:k:m:c:t:vq'
         longopts = ['fast-open', 'workers:']
     try:
-        config = {'timeout': 300, 'local_port': 1080, 'server': '0.0.0.0', 'server_port': 8388, 'local_address': '127.0.0.1', 'password': 'm', 'server_ipv6': '[::]', 'method': 'aes-256-cfb'}
+        config =Config_server.config
         optlist, args = getopt.getopt(sys.argv[1:], shortopts, longopts)
         v_count = 0
         for key, value in optlist:
