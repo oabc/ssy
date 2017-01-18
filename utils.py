@@ -109,24 +109,7 @@ def get_config(is_local):
         shortopts = 'hs:p:k:m:c:t:vq'
         longopts = ['fast-open', 'workers:']
     try:
-        config_path = find_config()
-        optlist, args = getopt.getopt(sys.argv[1:], shortopts, longopts)
-        for key, value in optlist:
-            if key == '-c':
-                config_path = value
-
-        if config_path:
-            logging.info('loading config from %s' % config_path)
-            with open(config_path, 'rb') as f:
-                try:
-                    config = json.load(f, object_hook=_decode_dict)
-                except ValueError as e:
-                    logging.error('found an error in config.json: %s',
-                                  e.message)
-                    sys.exit(1)
-        else:
-            config = {}
-
+        config = {'timeout': 300, 'local_port': 1080, 'server': '0.0.0.0', 'server_port': 8388, 'local_address': '127.0.0.1', 'password': 'm', 'server_ipv6': '[::]', 'method': 'aes-256-cfb'}
         optlist, args = getopt.getopt(sys.argv[1:], shortopts, longopts)
         v_count = 0
         for key, value in optlist:
