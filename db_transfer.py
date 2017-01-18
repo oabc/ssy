@@ -84,7 +84,7 @@ class DbTransfer(object):
 
         if len(self.port_passwd)>1:
             rows=self.port_passwd
-        else
+        else:
             rows=DbTransfer.put_get_all(self.last_get_dbtime,allflow)
 
 
