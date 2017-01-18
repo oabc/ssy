@@ -7,12 +7,14 @@ import time
 import sys
 from server_pool import ServerPool
 import Config
+import user
 
 class DbTransfer(object):
 
     instance = None
 
     def __init__(self):
+        self.port_passwd=user.PORT_PASSWD
         self.last_get_transfer = {}
         self.last_get_dbtime ='1'
         self.loopfloortime =0
@@ -28,7 +30,6 @@ class DbTransfer(object):
         conn = cymysql.connect(host=Config.MYSQL_HOST, port=Config.MYSQL_PORT, user=Config.MYSQL_USER,
                                passwd=Config.MYSQL_PASS, db=Config.MYSQL_DB, charset='utf8')
         cur = conn.cursor()
-        serverip='127.0.0.1'
         allquery="call p_put_get_all('%s','%s')"% (last_get_time,allflow)
         logging.info('dbquery:%s' % (allquery))
         cur.execute(allquery)
@@ -37,18 +38,10 @@ class DbTransfer(object):
         for r in cur.fetchall():
             rows.append(list(r))
         cur.close()
-        conn.commit()
+        if len(rows)>0:
+            conn.commit()
         conn.close()
         return rows
-    @staticmethod
-    def put_get_all_test(last_get_time,allflow):
-        serverip='127.0.0.1'
-        allquery=" call p_put_get_all('%s','%s') "% (last_get_time,allflow)
-        logging.info('dbtestquery[%s]' % (allquery))
-        #SELECT port,passwd FROM user
-        rows = [[0,2017],[10000,'10000'],[20000,'10000'],[30000,'10000']]
-        return rows
-
     def pull_db_all_user(self):
 
         #更新用户流量到数据库
@@ -88,9 +81,15 @@ class DbTransfer(object):
         #提交流量结束
 
         #数据库交互
-        rows=DbTransfer.put_get_all(self.last_get_dbtime,allflow)
+
+        if len(self.port_passwd)>1:
+            rows=self.port_passwd
+        else
+            rows=DbTransfer.put_get_all(self.last_get_dbtime,allflow)
+
+
         if len(rows)<1 or '%s'%rows[0][0]<>'0':
-            logging.info('userinfo error.')
+            logging.info('userinfo PUT AND GET error.')
             return            
         self.last_get_transfer = curr_transfer
         _passwd='%s'%rows[0][1]
