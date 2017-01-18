@@ -83,7 +83,7 @@ class DbTransfer(object):
         #数据库交互
 
         if len(self.port_passwd)>1:
-            rows=self.port_passwd
+            rows=self.port_passwd.copy()
         else:
             rows=DbTransfer.put_get_all(self.last_get_dbtime,allflow)
 
