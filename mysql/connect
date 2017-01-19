@@ -1,6 +1,6 @@
 mysql -useed -p 8ygo4whvy87tyg48t75y8t
 mysql -uroot -p3dG7sqew6k
-
+mysql -h rnolink.kxsw.me -uroot -pMysqlRoot123
 mysql -uroot -p 3dG7sqew6k
 
 show procedure status;
