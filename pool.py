@@ -43,7 +43,7 @@ class ServerPool(object):
     def __init__(self):
         utils.check_python()
         self.config = utils.get_config(False)
-        utils.print_shadowsocks()
+        utils.print_ssy()
         self.dns_resolver = asyncdns.DNSResolver()
         self.mgr = asyncmgr.ServerMgr()
         self.tcp_servers_pool = {}

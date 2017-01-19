@@ -32,14 +32,14 @@ def check_python():
     if not (info[0] == 2 and info[1] >= 6):
         print 'Python 2.6 or 2.7 required'
         sys.exit(1)
-def print_shadowsocks():
-    version = ''
+def print_ssy():
+    version = '1.0'
     try:
         import pkg_resources
-        version = pkg_resources.get_distribution('shadowsocks').version
+        version = pkg_resources.get_distribution('ssy').version
     except Exception:
         pass
-    print 'shadowsocks %s' % version
+    print 'ssy %s' % version
 def find_config():
     config_path = 'config.json'
     if os.path.exists(config_path):
@@ -203,7 +203,7 @@ optional arguments:
   -v, -vv               verbose mode
   -q, -qq               quiet mode, only show warnings/errors
 
-Online help: <https://github.com/clowwindy/shadowsocks>
+Online help: <https://github.com/clowwindy/ssy>
 '''
 
 
@@ -225,7 +225,7 @@ optional arguments:
   -v, -vv               verbose mode
   -q, -qq               quiet mode, only show warnings/errors
 
-Online help: <https://github.com/clowwindy/shadowsocks>
+Online help: <https://github.com/clowwindy/ssy>
 '''
 
 

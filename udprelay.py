@@ -35,21 +35,21 @@
 # | 2  |  1   |  1   | Variable |    2     | Variable |
 # +----+------+------+----------+----------+----------+
 
-# shadowsocks UDP Request (before encrypted)
+# ssy UDP Request (before encrypted)
 # +------+----------+----------+----------+
 # | ATYP | DST.ADDR | DST.PORT |   DATA   |
 # +------+----------+----------+----------+
 # |  1   | Variable |    2     | Variable |
 # +------+----------+----------+----------+
 
-# shadowsocks UDP Response (before encrypted)
+# ssy UDP Response (before encrypted)
 # +------+----------+----------+----------+
 # | ATYP | DST.ADDR | DST.PORT |   DATA   |
 # +------+----------+----------+----------+
 # |  1   | Variable |    2     | Variable |
 # +------+----------+----------+----------+
 
-# shadowsocks UDP Request and Response (after encrypted)
+# ssy UDP Request and Response (after encrypted)
 # +-------+--------------+
 # |   IV  |    PAYLOAD   |
 # +-------+--------------+
@@ -60,8 +60,8 @@
 # ------------------
 # `dest`    means destination server, which is from DST fields in the SOCKS5
 #           request
-# `local`   means local server of shadowsocks
-# `remote`  means remote server of shadowsocks
+# `local`   means local server of ssy
+# `remote`  means remote server of ssy
 # `client`  means UDP clients that connects to other servers
 # `server`  means the UDP server that handles user requests
 

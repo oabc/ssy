@@ -43,7 +43,7 @@ def main():
 
     config = utils.get_config(True)
 
-    utils.print_shadowsocks()
+    utils.print_ssy()
 
     encrypt.init_table(config['password'], config['method'])
 
