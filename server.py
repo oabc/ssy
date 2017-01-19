@@ -11,10 +11,10 @@ import Config_server
 
 if __name__ == '__main__':
     import utils
-    config = utils.get_config(True)
+    config = utils.get_config(True).get('fast_open', False)
     print config
-    config = utils.get_config(True)
-    print config['rdb']
+    config = utils.get_config(True).get('fast_open', False)
+    print config
     if Config_server.db:
         import db_transfer
         thread.start_new_thread(db_transfer.DbTransfer.thread_db, ())
