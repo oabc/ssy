@@ -2,8 +2,6 @@ import time
 import sys
 import thread
 import pool
-import db_transfer
-import local_transfer
 import Config_server
 
 #def test():
@@ -12,9 +10,16 @@ import Config_server
 #    qr.peernat.com
 
 if __name__ == '__main__':
+    import utils
+    config = utils.get_config(True)
+    print config
+    config = utils.get_config(True)
+    print config['rdb']
     if Config_server.db:
+        import db_transfer
         thread.start_new_thread(db_transfer.DbTransfer.thread_db, ())
     else:
+        import local_transfer
         thread.start_new_thread(local_transfer.DbTransfer.thread_db, ())
     """
     time.sleep(2)
