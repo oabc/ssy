@@ -23,7 +23,7 @@ class DbTransfer(object):
         if DbTransfer.instance is None:
             DbTransfer.instance = DbTransfer()
         return DbTransfer.instance
-    def pull_db_all_user(self):
+    def pull_db_all_user(self,serverip):
 
         #更新用户流量到数据库
         last_transfer = self.last_get_transfer
@@ -56,7 +56,7 @@ class DbTransfer(object):
         self.loopfloortime=0
         for id in dt_transfer.keys():
             allflow+='%s|%s|%s,' % (id, dt_transfer[id][0], dt_transfer[id][1])#(port,up,down)
-        logging.info('flow(%s)'%allflow)
+        logging.info('%s flow(%s)'%(serverip,allflow))
         #print query_sql
 #UPDATE user SET u上传 = CASE port WHEN 10000 THEN u+79280 END, d下载 = CASE port WHEN 10000 THEN d+863188 END, t时间 = 1483353247 WHERE port IN (10000)
         #提交流量结束
@@ -99,14 +99,14 @@ class DbTransfer(object):
                 ServerPool.get_instance().del_server(runport)
 
     @staticmethod
-    def thread_db():
+    def thread_db(serverip):
         import socket
         import time
         timeout = 120
         socket.setdefaulttimeout(timeout)
         while True:
             #logging.warn('db loop')
-            DbTransfer.get_instance().pull_db_all_user()
+            DbTransfer.get_instance().pull_db_all_user(serverip)
             try:
                 d=5
                 #DbTransfer.get_instance().pull_db_all_user()

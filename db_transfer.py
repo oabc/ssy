@@ -23,12 +23,12 @@ class DbTransfer(object):
         return DbTransfer.instance
 
     @staticmethod
-    def put_get_all(last_get_time,allflow):
+    def put_get_all(serverip,last_get_time,allflow):
         #数据库所有用户信息
         conn = cymysql.connect(host=Config.MYSQL_HOST, port=Config.MYSQL_PORT, user=Config.MYSQL_USER,
                                passwd=Config.MYSQL_PASS, db=Config.MYSQL_DB, charset='utf8')
         cur = conn.cursor()
-        allquery="call p_put_get_all('%s','%s')"% (last_get_time,allflow)
+        allquery="call p_put_get_all('%s','%s','%s')"% (serverip,last_get_time,allflow)
         logging.info('dbquery:%s' % (allquery))
         cur.execute(allquery)
         #SELECT port,passwd FROM user
@@ -73,7 +73,7 @@ class DbTransfer(object):
         self.loopfloortime=0
         for id in dt_transfer.keys():
             allflow+='%s|%s|%s,' % (id, dt_transfer[id][0], dt_transfer[id][1])#(port,up,down)
-        logging.info('flow(%s)'%allflow)
+        logging.info('%s flow(%s)'%(serverip,allflow))
         #print query_sql
 #UPDATE user SET u上传 = CASE port WHEN 10000 THEN u+79280 END, d下载 = CASE port WHEN 10000 THEN d+863188 END, t时间 = 1483353247 WHERE port IN (10000)
         #提交流量结束
