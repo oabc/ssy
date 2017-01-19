@@ -1,3 +1,4 @@
+db=false
 config = {
     'timeout': 300, 
     'local_port': 1080, 
@@ -8,4 +9,3 @@ config = {
     'server_ipv6': '[::]', 
     'method': 'aes-256-cfb'
     }
-db=false
