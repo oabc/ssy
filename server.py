@@ -11,11 +11,7 @@ import Config_server
 
 if __name__ == '__main__':
     import utils
-    config = utils.get_config(True).get('fast_open', False)
-    print config
-    config = utils.get_config(True).get('fast_open', False)
-    print config
-    if Config_server.db:
+    if utils.get_config(False).get('rdb', False):
         import db_transfer
         thread.start_new_thread(db_transfer.DbTransfer.thread_db, ())
     else:
