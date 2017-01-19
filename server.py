@@ -14,10 +14,10 @@ if __name__ == '__main__':
     serverip=utils.get_config(False).get('rdb', False)
     if serverip:
         import db_transfer
-        thread.start_new_thread(db_transfer.DbTransfer.thread_db, (serverip))
+        thread.start_new_thread(db_transfer.DbTransfer.thread_db, ((serverip)))
     else:
         import local_transfer
-        thread.start_new_thread(local_transfer.DbTransfer.thread_db, ('local'))
+        thread.start_new_thread(local_transfer.DbTransfer.thread_db, (('local')))
     """
     time.sleep(2)
     server_pool.ServerPool.get_instance().new_server(3333, '2333')
