@@ -7,12 +7,14 @@ import time
 import sys
 from pool import ServerPool
 import Config
+import user
 
 class DbTransfer(object):
 
     instance = None
 
     def __init__(self):
+        self.port_passwd=user.PORT_PASSWD
         self.last_get_transfer = {}
         self.last_get_dbtime ='1'
         self.loopfloortime =0
@@ -21,25 +23,6 @@ class DbTransfer(object):
         if DbTransfer.instance is None:
             DbTransfer.instance = DbTransfer()
         return DbTransfer.instance
-
-    @staticmethod
-    def put_get_all(last_get_time,allflow):
-        #数据库所有用户信息
-        conn = cymysql.connect(host=Config.MYSQL_HOST, port=Config.MYSQL_PORT, user=Config.MYSQL_USER,
-                               passwd=Config.MYSQL_PASS, db=Config.MYSQL_DB, charset='utf8')
-        cur = conn.cursor()
-        allquery="call p_put_get_all('%s','%s')"% (last_get_time,allflow)
-        logging.info('dbquery:%s' % (allquery))
-        cur.execute(allquery)
-        #SELECT port,passwd FROM user
-        rows = []
-        for r in cur.fetchall():
-            rows.append(list(r))
-        cur.close()
-        if len(rows)>0:
-            conn.commit()
-        conn.close()
-        return rows
     def pull_db_all_user(self):
 
         #更新用户流量到数据库
@@ -66,7 +49,7 @@ class DbTransfer(object):
         #最后一次流量等于本次流量
         if len(dt_transfer)<1 and len(curr_transfer)>0:
             self.loopfloortime=self.loopfloortime+1
-            if self.loopfloortime<180:
+            if self.loopfloortime<30:
                 logging.info('Not use floor:%s'%self.loopfloortime)
                 return
         allflow = ''
@@ -79,7 +62,10 @@ class DbTransfer(object):
         #提交流量结束
 
         #数据库交互
-        rows=DbTransfer.put_get_all(self.last_get_dbtime,allflow)
+        rows=[]
+        for r in self.port_passwd:
+            rows.append(r)
+
         if len(rows)<1 or '%s'%rows[0][0]<>'0':
             logging.info('userinfo PUT AND GET error.%s.%s'%(len(rows),rows[0][0]))
             return            
@@ -128,7 +114,6 @@ class DbTransfer(object):
                 logging.warn('db thread except:%s' % e)
             finally:
                 time.sleep(60)
-                #time.sleep(10)
 
 #SQLData.pull_db_all_user()
 #print DbTransfer.get_instance().test()

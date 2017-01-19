@@ -3,6 +3,8 @@ import sys
 import thread
 import pool
 import db_transfer
+import local_transfer
+import Config_server
 
 #def test():
 #    thread.start_new_thread(DbTransfer.thread_db, ())
@@ -10,7 +12,10 @@ import db_transfer
 #    qr.peernat.com
 
 if __name__ == '__main__':
-    thread.start_new_thread(db_transfer.DbTransfer.thread_db, ())
+    if Config_server.db:
+        thread.start_new_thread(db_transfer.DbTransfer.thread_db, ())
+    else:
+        thread.start_new_thread(local_transfer.DbTransfer.thread_db, ())
     """
     time.sleep(2)
     server_pool.ServerPool.get_instance().new_server(3333, '2333')
