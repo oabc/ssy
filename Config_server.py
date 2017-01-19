@@ -1,4 +1,3 @@
-db=1
 config = {
     'timeout': 300, 
     'local_port': 1080, 

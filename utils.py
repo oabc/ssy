@@ -92,6 +92,8 @@ def get_config(is_local):
                 config['server_port'] = int(value)
             elif key == '-k':
                 config['password'] = value
+            elif key == '-db':
+                logging.error('is -db')
             elif key == '-l':
                 config['local_port'] = int(value)
             elif key == '-s':
