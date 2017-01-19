@@ -33,7 +33,7 @@ import thread
 import threading
 import sys
 import asyncmgr
-import Config
+import Config_server
 from socket import *
 
 class ServerPool(object):
@@ -81,7 +81,7 @@ class ServerPool(object):
         logging.info("start server at %d" % port)
         try:
             udpsock = socket(AF_INET, SOCK_DGRAM)
-            udpsock.sendto('%s:%s:%s:1' % (Config.MANAGE_PASS, port, password), (Config.MANAGE_BIND_IP, Config.MANAGE_PORT))
+            udpsock.sendto('%s:%s:%s:1' % (Config_server.MANAGE_PASS, port, password), (Config_server.MANAGE_BIND_IP, Config_server.MANAGE_PORT))
             udpsock.close()
         except Exception, e:
             logging.warn(e)
@@ -116,7 +116,7 @@ class ServerPool(object):
         logging.info("del server at %d" % port)
         try:
             udpsock = socket(AF_INET, SOCK_DGRAM)
-            udpsock.sendto('%s:%s:0:0' % (Config.MANAGE_PASS, port), (Config.MANAGE_BIND_IP, Config.MANAGE_PORT))
+            udpsock.sendto('%s:%s:0:0' % (Config_server.MANAGE_PASS, port), (Config_server.MANAGE_BIND_IP, Config_server.MANAGE_PORT))
             udpsock.close()
         except Exception, e:
             logging.warn(e)

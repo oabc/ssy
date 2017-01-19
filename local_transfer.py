@@ -6,7 +6,6 @@ import cymysql
 import time
 import sys
 from pool import ServerPool
-import Config
 import user
 
 class DbTransfer(object):

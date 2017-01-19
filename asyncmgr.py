@@ -31,7 +31,7 @@ import common
 import lru_cache
 import eventloop
 import pool
-import Config
+import Config_server
 
 class ServerMgr(object):
 
@@ -46,7 +46,7 @@ class ServerMgr(object):
         # TODO when dns server is IPv6
         self._sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM,
                                    socket.SOL_UDP)
-        self._sock.bind((Config.MANAGE_BIND_IP, Config.MANAGE_PORT))
+        self._sock.bind((Config_server.MANAGE_BIND_IP, Config_server.MANAGE_PORT))
         self._sock.setblocking(False)
         loop.add(self._sock, eventloop.POLL_IN)
         loop.add_handler(self.handle_events)
@@ -57,7 +57,7 @@ class ServerMgr(object):
         args = data.split(':')
         if len(args) < 4:
             return
-        if args[0] == Config.MANAGE_PASS:
+        if args[0] == Config_server.MANAGE_PASS:
             if args[3] == '0':
                 pool.ServerPool.get_instance().cb_del_server(args[1])
             elif args[3] == '1':
