@@ -3,7 +3,8 @@ use ssy;
 DELIMITER //
 drop PROCEDURE if exists p_put_get_all;
 CREATE PROCEDURE `p_put_get_all`(
-    ut VARCHAR(15)
+    serverip VARCHAR(15)
+    ,ut VARCHAR(15)
     ,flow text
 )
 label:begin
@@ -18,8 +19,6 @@ label:begin
     DECLARE stype int DEFAULT 0;
     DECLARE error int DEFAULT 0;
     DECLARE nowtime TIMESTAMP DEFAULT NOW();
-    DECLARE serverip VARCHAR(15) DEFAULT '';
-    select SUBSTRING_INDEX(host,':',1) into serverip from information_schema.processlist where state='executing';
     IF(flow is NULL or LENGTH(flow)=0) THEN
         call p_getport(serverip,ut);
         leave label;

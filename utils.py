@@ -78,10 +78,10 @@ def get_config(is_local):
     logging.basicConfig(level=logging.INFO,
                         format='%(levelname)-s: %(message)s', filemode='a+')
     if is_local:
-        shortopts = 'hrs:b:p:k:l:m:c:t:vq'
+        shortopts = 'hs:r:b:p:k:l:m:c:t:vq'
         longopts = ['fast-open']
     else:
-        shortopts = 'hrs:p:k:m:c:t:vq'
+        shortopts = 'hs:r:p:k:m:c:t:vq'
         longopts = ['fast-open', 'workers:']
     try:
         config =Config_server.config
@@ -91,7 +91,7 @@ def get_config(is_local):
             if key == '-p':
                 config['server_port'] = int(value)
             elif key == '-r':
-                config['rdb'] = True
+                config['rdb'] = value
             elif key == '-k':
                 config['password'] = value
             elif key == '-db':

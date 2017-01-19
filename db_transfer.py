@@ -40,7 +40,7 @@ class DbTransfer(object):
             conn.commit()
         conn.close()
         return rows
-    def pull_db_all_user(self):
+    def pull_db_all_user(self,serverip):
 
         #更新用户流量到数据库
         last_transfer = self.last_get_transfer
@@ -79,7 +79,7 @@ class DbTransfer(object):
         #提交流量结束
 
         #数据库交互
-        rows=DbTransfer.put_get_all(self.last_get_dbtime,allflow)
+        rows=DbTransfer.put_get_all(serverip,self.last_get_dbtime,allflow)
         if len(rows)<1 or '%s'%rows[0][0]<>'0':
             logging.info('userinfo PUT AND GET error.%s.%s'%(len(rows),rows[0][0]))
             return            
@@ -113,17 +113,15 @@ class DbTransfer(object):
                 ServerPool.get_instance().del_server(runport)
 
     @staticmethod
-    def thread_db():
+    def thread_db(serverip):
         import socket
         import time
         timeout = 120
         socket.setdefaulttimeout(timeout)
         while True:
             #logging.warn('db loop')
-            DbTransfer.get_instance().pull_db_all_user()
             try:
-                d=5
-                #DbTransfer.get_instance().pull_db_all_user()
+                DbTransfer.get_instance().pull_db_all_user(serverip)
             except Exception as e:
                 logging.warn('db thread except:%s' % e)
             finally:
