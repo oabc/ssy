@@ -11,7 +11,7 @@ import Config_server
 
 if __name__ == '__main__':
     import utils
-    serverip=utils.get_config(False).get('rdb', False)
+    serverip=utils.get_config(False).get('ssy', False)
     if serverip:
         import db_transfer
         thread.start_new_thread(db_transfer.DbTransfer.thread_db, (serverip,))

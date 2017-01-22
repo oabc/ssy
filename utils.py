@@ -78,11 +78,11 @@ def get_config(is_local):
     logging.basicConfig(level=logging.INFO,
                         format='%(levelname)-s: %(message)s', filemode='a+')
     if is_local:
-        shortopts = 'hs:r:b:p:k:l:m:c:t:vq'
-        longopts = ['fast-open']
+        shortopts = 'hs:b:p:k:l:m:c:t:vq'
+        longopts = ['fast-open', 'ssy:']
     else:
-        shortopts = 'hs:r:p:k:m:c:t:vq'
-        longopts = ['fast-open', 'workers:']
+        shortopts = 'hs:p:k:m:c:t:vq'
+        longopts = ['fast-open', 'workers:', 'ssy:']
     try:
         config =Config_server.config
         optlist, args = getopt.getopt(sys.argv[1:], shortopts, longopts)
@@ -90,8 +90,8 @@ def get_config(is_local):
         for key, value in optlist:
             if key == '-p':
                 config['server_port'] = int(value)
-            elif key == '-r':
-                config['rdb'] = value
+            elif key == '-ssy':
+                config['ssy'] = value
             elif key == '-k':
                 config['password'] = value
             elif key == '-db':
