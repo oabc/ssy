@@ -79,10 +79,10 @@ def get_config(is_local):
                         format='%(levelname)-s: %(message)s', filemode='a+')
     if is_local:
         shortopts = 'hs:b:p:k:l:m:c:t:vq'
-        longopts = ['fast-open', 'ssy:']
+        longopts = ['fast-open', 'ssy=']
     else:
         shortopts = 'hs:p:k:m:c:t:vq'
-        longopts = ['fast-open', 'workers:', 'ssy:']
+        longopts = ['fast-open', 'workers:', 'ssy=']
     try:
         config =Config_server.config
         optlist, args = getopt.getopt(sys.argv[1:], shortopts, longopts)
