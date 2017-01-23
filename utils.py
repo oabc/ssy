@@ -90,7 +90,7 @@ def get_config(is_local):
         for key, value in optlist:
             if key == '-p':
                 config['server_port'] = int(value)
-            elif key == '-ssy':
+            elif key == '--ssy':
                 config['ssy'] = value
             elif key == '-k':
                 config['password'] = value
