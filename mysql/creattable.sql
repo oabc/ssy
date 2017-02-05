@@ -38,6 +38,13 @@ CREATE TABLE IF NOT EXISTS `user_config`(
     name varchar(20) NOT NULL DEFAULT ''
     ,value varchar(200) NOT NULL DEFAULT '', PRIMARY KEY (name)); 
 
+CREATE TABLE IF NOT EXISTS `user_flow_log`(
+    t timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+    ,i varchar(15) NOT NULL DEFAULT 'none'
+    ,p int NOT NULL DEFAULT 0
+    ,u int NOT NULL DEFAULT 0
+    ,d int NOT NULL DEFAULT 0, PRIMARY KEY (t,i,p)); 
+
 drop table if exists flow_addup_auto;
 CREATE TABLE IF NOT EXISTS `flow_addup_auto`(
     ip varchar(15) NOT NULL DEFAULT '127.0.0.1'

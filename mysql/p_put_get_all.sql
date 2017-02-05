@@ -40,11 +40,13 @@ label:begin
         END IF;
     else
         insert into flow_addup_auto(ip,port,value,flowk,flowkday,flowku,flowkdayu,flowkd,flowkdayd,cost)values(serverip,port,value,value,value,uvalue,uvalue,dvalue,dvalue,floor(1000*price*value/1073741824)/1000) ON DUPLICATE KEY UPDATE value=flow_addup_auto.value+value,flowk=flowk+value,flowkday=flowkday+value,flowku=flowku+value,flowkdayu=flowkdayu+value,flowkd=flowkd+value,flowkdayd=flowkdayd+value,cost=floor(1000*flow_addup_auto.value*price/1073741824)/1000;
+        insert into user_flow_log(i,p,u,d)values(serverip,port,uvalue,dvalue);    
     END IF;
        END WHILE;
     UPDATE flow_addup_auto SET flowg=flowg+1,flowk=flowk-1073741824 where flowk>1073741824;
     UPDATE flow_addup_auto SET flowgu=flowgu+1,flowku=flowku-1073741824 where flowku>1073741824;
     UPDATE flow_addup_auto SET flowgd=flowgd+1,flowkd=flowkd-1073741824 where flowkd>1073741824;
+    delete from user_flow_log where datediff(nowtime,7)>7;
     UPDATE flow_addup_auto inner join user on flow_addup_auto.ip=serverip and user.port=flow_addup_auto.port and flow_addup_auto.cost>0 SET user.balance=user.balance-flow_addup_auto.cost,flow_addup_auto.value=flow_addup_auto.value-1073741824*flow_addup_auto.cost/price,flow_addup_auto.cost=0  where price>0 and (stype<>1 or user.day_time<nowtime);
     UPDATE flow_addup_auto inner join user on flow_addup_auto.ip=serverip and user.port=flow_addup_auto.port SET flow_addup_auto.value=0,flow_addup_auto.cost=0  where stype=1 and user.day_time>nowtime;
     IF(error>0) THEN
