@@ -46,7 +46,7 @@ label:begin
     UPDATE flow_addup_auto SET flowg=flowg+1,flowk=flowk-1073741824 where flowk>1073741824;
     UPDATE flow_addup_auto SET flowgu=flowgu+1,flowku=flowku-1073741824 where flowku>1073741824;
     UPDATE flow_addup_auto SET flowgd=flowgd+1,flowkd=flowkd-1073741824 where flowkd>1073741824;
-    delete from user_flow_log where datediff(nowtime,7)>7;
+    delete from user_flow_log where datediff(nowtime,t)>7;
     UPDATE flow_addup_auto inner join user on flow_addup_auto.ip=serverip and user.port=flow_addup_auto.port and flow_addup_auto.cost>0 SET user.balance=user.balance-flow_addup_auto.cost,flow_addup_auto.value=flow_addup_auto.value-1073741824*flow_addup_auto.cost/price,flow_addup_auto.cost=0  where price>0 and (stype<>1 or user.day_time<nowtime);
     UPDATE flow_addup_auto inner join user on flow_addup_auto.ip=serverip and user.port=flow_addup_auto.port SET flow_addup_auto.value=0,flow_addup_auto.cost=0  where stype=1 and user.day_time>nowtime;
     IF(error>0) THEN
