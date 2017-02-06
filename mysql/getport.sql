@@ -9,6 +9,7 @@ CREATE PROCEDURE `p_getport`(
 begin
     DECLARE stype int DEFAULT 0;
     DECLARE nt VARCHAR(105) DEFAULT '';
+    SET time_zone = '+8:00';
     select type into stype from server where ip=serverip limit 1;
     IF exists(select port from (SELECT `port`, `password` FROM `user` WHERE (`day_time`>SYSDATE() and stype=1) OR `balance`>0 union all select port,password from user_update)as t group by port,password having count(port)=1 limit 1) THEN
         drop table if exists user_update;

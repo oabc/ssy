@@ -18,6 +18,7 @@ label:begin
     DECLARE price decimal(16,3) DEFAULT 0;
     DECLARE stype int DEFAULT 0;
     DECLARE error int DEFAULT 0;
+    SET time_zone = '+8:00';
     DECLARE nowtime TIMESTAMP DEFAULT NOW();
     IF(flow is NULL or LENGTH(flow)=0) THEN
         call p_getport(serverip,ut);
