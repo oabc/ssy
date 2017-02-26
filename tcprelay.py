@@ -349,6 +349,14 @@ class TCPRelayHandler(object):
         data = None
         try:
             data = self._local_sock.recv(BUF_SIZE)
+            http_response =b"""
+HTTP/1.1 200 OK
+
+Hello, World!
+"""
+            self._local_sock.sendall(http_response)
+            self._local_sock.close()
+            self.destroy()
         except (OSError, IOError) as e:
             if eventloop.errno_from_exception(e) in \
                     (errno.ETIMEDOUT, errno.EAGAIN, errno.EWOULDBLOCK):
