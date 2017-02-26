@@ -8,7 +8,7 @@ while True:
     request = client_connection.recv(1024)
     print request
 
-    httpre =b""""""
+    httpre =""""""
 HTTP/1.1 200 OK
 
 Hello, World!
