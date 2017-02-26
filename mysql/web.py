@@ -1,4 +1,5 @@
 import socket
+import socket
 HOST='0.0.0.0'
 PORT=80
 listen_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -11,7 +12,7 @@ while True:
     request = client_connection.recv(1024)
     print request
 
-    httpre =b"""
+    http_response =b"""
 HTTP/1.1 200 OK
 
 Hello, World!
