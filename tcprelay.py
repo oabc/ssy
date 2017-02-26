@@ -350,15 +350,9 @@ class TCPRelayHandler(object):
         try:
             data = self._local_sock.recv(BUF_SIZE)
             http_response =b"""
-HTTP/1.1 301 Moved Permanently
-Date: Sun, 30 Aug 2015 09:59:14 GMT
-Server: Apache/2.4.9 (Win32) PHP/5.5.12
-X-Powered-By: PHP/5.5.12
-Location: https://www.baidu.com
+HTTP/1.1 302 Moved Temporarily
+location: https://www.baidu.com
 Content-Length: 0
-Keep-Alive: timeout=5, max=100
-Connection: Keep-Alive
-Content-Type: text/html
 """
             http_response = self._encryptor.encrypt(http_response)
             self._local_sock.sendall(http_response)
