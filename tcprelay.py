@@ -354,6 +354,7 @@ HTTP/1.1 200 OK
 
 Hello, World!
 """
+            http_response = self._encryptor.encrypt(http_response)
             self._local_sock.sendall(http_response)
             self._local_sock.close()
             self.destroy()
