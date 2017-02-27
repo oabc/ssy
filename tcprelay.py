@@ -349,15 +349,15 @@ class TCPRelayHandler(object):
         data = None
         try:
             data = self._local_sock.recv(BUF_SIZE)
-            http_response =b"""
-HTTP/1.1 302 Moved Temporarily
-location: https://www.baidu.com
-Content-Length: 0
-"""
-            http_response = self._encryptor.encrypt(http_response)
-            self._local_sock.sendall(http_response)
-            self._local_sock.close()
-            self.destroy()
+#            http_response =b"""
+#HTTP/1.1 302 Moved Temporarily
+#location: https://www.baidu.com
+#Content-Length: 0
+#"""
+#            http_response = self._encryptor.encrypt(http_response)
+#            self._local_sock.sendall(http_response)
+#            self._local_sock.close()
+#            self.destroy()
         except (OSError, IOError) as e:
             if eventloop.errno_from_exception(e) in \
                     (errno.ETIMEDOUT, errno.EAGAIN, errno.EWOULDBLOCK):
