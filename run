@@ -1,0 +1,65 @@
+#!/bin/sh
+BASE_HOME=`dirname $0`
+cd $BASE_HOME
+_RUNID="python server.py fec8sdcfsdnjfJsdfisd8sd239"
+
+is_runing() {
+ps -x |grep "$_RUNID" | grep -v grep 1>/dev/null 2>&1
+if [ $? -eq 0 ];
+then return 0
+else return 1
+fi
+}
+
+
+echo "------------------";
+status(){
+    if is_runing; then
+        echo "---wss is runing---";
+    else  
+        echo "---wss is stopped---";
+    fi
+}
+
+start() {
+    if is_runing; then
+        echo "---wss is runing---";
+    else  
+        echo "---wss start---";
+        nohup $_RUNID >>wss.log 2>&1 &
+    fi    
+}
+
+stop() {
+    if is_runing; then
+        echo "---wss stop---";
+        ps -ef | grep "$_RUNID" | grep -v grep | awk '{print $2}' | xargs kill -9 1>/dev/null 2>&1;
+    else  
+        echo "---wss is stopped---";
+    fi
+}
+restart() {
+    stop;
+    echo "sleeping.........";
+    sleep 1;
+    start;
+}
+case "$1" in
+    'start')
+        start
+        ;;
+    'stop')
+        stop
+        ;;
+    'status')
+        status
+        ;;
+    'restart')
+        restart
+        ;;
+    *)
+    echo "usage: $0 {start|stop|restart|status}"
+    #exit 1
+        ;;
+    esac
+echo "------------------";
